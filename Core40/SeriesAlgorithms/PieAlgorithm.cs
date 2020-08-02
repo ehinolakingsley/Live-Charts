@@ -71,10 +71,8 @@ namespace LiveCharts.SeriesAlgorithms
 
             foreach (var chartPoint in View.ActualValues.GetPoints(View))
             {
-                chartPoint.View = View.GetPointView(chartPoint,
-                    View.DataLabels
-                        ? View.GetLabelPointFormatter()(chartPoint)
-                        : null);
+               //If GetLabelPointFormatter() returns null, an exception is throw. So i resolved it by checking before invoking
+                chartPoint.View = View.GetPointView(chartPoint, View.DataLabels   ? View.GetLabelPointFormatter()?.Invoke(chartPoint)??null  : null);
 
                 var pieSlice = (IPieSlicePointView) chartPoint.View;
 
